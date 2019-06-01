@@ -17,7 +17,7 @@ class Database {
         useCreateIndex: true,
         useNewUrlParser: true,
         reconnectTries: Number.MAX_VALUE,
-        reconnectInterval: 1500
+        reconnectInterval: 1500 
     };
 
     async connect(){
