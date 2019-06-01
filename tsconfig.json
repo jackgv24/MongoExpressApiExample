@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "types": ["node"],
+    "target": "ES2016",
+    "module": "commonjs",
+    "allowJs": true,
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
