@@ -29,6 +29,25 @@ const permisoSchema = new mongoose_1.Schema({
             default: false
         }
     })
+}), TelefonosSchema = new mongoose_1.Schema({
+    Telefono: {
+        type: String,
+        match: /^[2,5,7,8,9]{1}\d{7}$/,
+        required: true
+    },
+    Operadora: {
+        type: String,
+        min: 3,
+        max: 12
+    },
+    FechaIngreso: {
+        type: Date,
+        default: new Date()
+    },
+    FechaModificacion: {
+        type: Date,
+        default: new Date()
+    }
 }), GeneralSchema = new mongoose_1.Schema({
     Nombre: {
         type: String,
@@ -53,8 +72,13 @@ const permisoSchema = new mongoose_1.Schema({
         type: String,
         index: true,
         match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    },
+    Telefonos: {
+        type: [TelefonosSchema],
+        default: []
     }
-}), RecoverySchema = new mongoose_1.Schema({
+});
+const RecoverySchema = new mongoose_1.Schema({
     IpSend: {
         type: String,
         default: null
@@ -144,8 +168,7 @@ const permisoSchema = new mongoose_1.Schema({
         type: Date,
         default: Date.now()
     }
-});
-const LogSchema = new mongoose_1.Schema({
+}), LogSchema = new mongoose_1.Schema({
     FechaModificacion: {
         type: Date,
         default: Date.now()
@@ -159,8 +182,7 @@ const LogSchema = new mongoose_1.Schema({
         type: JSON,
         required: true
     }
-});
-const CargoSchema = new mongoose_1.Schema({
+}), CargoSchema = new mongoose_1.Schema({
     IdCargo: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'cargos'
@@ -190,8 +212,6 @@ const ColaboradoresSchema = new mongoose_1.Schema({
         default: []
     },
     User: {
-        //TODO: Hace falta agregar el reegenerar token
-        //TODO: Hace falta agregar la lista de dispositivos que estan siendo usados
         type: UserSchema,
         default: {
             User: null,

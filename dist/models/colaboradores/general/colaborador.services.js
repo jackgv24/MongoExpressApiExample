@@ -20,11 +20,15 @@ const JoiPerfil = joi.object().keys({
         DarkMode: joi.boolean(),
         SideBar: joi.boolean()
     })
+}), JoiTelefonos = joi.object().keys({
+    Telefono: joi.string().regex(/^[2,5,7,8,9]{1}\d{7}$/),
+    Operadora: joi.string().min(3).max(12)
 }), JoiGeneral = joi.object().keys({
     Nombre: joi.string().required().min(5).max(30),
     Apellido: joi.string().required().min(5).max(30),
     Cedula: joi.string().required().regex(/\d{3}-{0,1}\d{6}-{0,1}\d{4}[A-z]{1}/),
-    Email: joi.string().email()
+    Email: joi.string().email(),
+    Telefonos: joi.array().items(JoiTelefonos)
 }), JoiCargo = joi.object().keys({
     IdCargo: joi.string(),
     FechaIngreso: joi.date()

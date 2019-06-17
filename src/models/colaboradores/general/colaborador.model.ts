@@ -1,5 +1,7 @@
 import {Schema,model} from 'mongoose';
-import { boolean, object, number } from 'joi';
+import { boolean, object, number, string } from 'joi';
+import { truncate } from 'fs';
+import { database } from '../../../database/config';
 
 const 
 permisoSchema = new Schema({
@@ -32,6 +34,26 @@ PerfilSchema = new Schema({
         }
     })
 }),
+TelefonosSchema = new Schema({
+    Telefono: {
+        type:String,
+        match:/^[2,5,7,8,9]{1}\d{7}$/,
+        required:true
+    },
+    Operadora:{
+        type: String,
+        min: 3,
+        max: 12
+    },
+    FechaIngreso:{
+        type:Date,
+        default:new Date()
+    },
+    FechaModificacion:{
+        type:Date,
+        default:new Date()
+    }
+}),
 GeneralSchema = new Schema({
     Nombre:{
         type:String,
@@ -56,9 +78,14 @@ GeneralSchema = new Schema({
         type:String,
         index: true,
         match:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    },
+    Telefonos:{
+        type:[TelefonosSchema],
+        default:[]
     }
-}),
-RecoverySchema = new Schema({
+});
+
+const RecoverySchema = new Schema({
     IpSend:{
         type:String,
         default: null
@@ -148,9 +175,8 @@ UserSchema = new Schema({
         type:Date,
         default:Date.now()
     }
-});
-
-const LogSchema = new Schema({
+}),
+LogSchema = new Schema({
     FechaModificacion:{
         type:Date,
         default:Date.now()
@@ -164,9 +190,8 @@ const LogSchema = new Schema({
         type:JSON,
         required:true
     }
-});
-
-const CargoSchema = new Schema({
+}),
+CargoSchema = new Schema({
     IdCargo:{
         type:Schema.Types.ObjectId,
         ref:'cargos'
@@ -197,8 +222,6 @@ const ColaboradoresSchema = new Schema({
         default:[]
     },
     User: {
-        //TODO: Hace falta agregar el reegenerar token
-        //TODO: Hace falta agregar la lista de dispositivos que estan siendo usados
         type : UserSchema,
         default:{
             User:null,
@@ -243,4 +266,5 @@ ColaboradoresSchema.post('save', function(error, doc, next) {
     if(error) next(error);
     next();
 });
+
 export default model('Colaborador',ColaboradoresSchema,'colaboradores');
