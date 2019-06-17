@@ -3,15 +3,18 @@ import * as Db from 'mongoose';
 
 class Transaction{
     private Instance:any = null;
-    private Task:Fawn.Task;
-    constructor(db:any){
-        if(this.Instance == null){
-            Fawn.init(db,'lan_claro');
-            this.Task = new Fawn.Task();
+    private _Task:Fawn.Task;
+    constructor(db?:any){
+        if(this.Instance == null && db != null){
+            Fawn.init(db,'globalNet');
+            this._Task = new Fawn.Task();
             this.Instance = this;
         }
-        return this.Instance;
+        return this.Instance; 
+    }
+    Task(){
+        return this._Task;
     }
 }
 
-export default Transaction;
+export default new Transaction;

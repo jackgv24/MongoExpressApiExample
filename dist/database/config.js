@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const config = require("config");
-const transactions_1 = require("../database/transactions");
 const db = require("mongoose");
 const chalk_1 = require("chalk");
 const Winston = require("winston");
@@ -29,14 +28,12 @@ class Database {
             reconnectInterval: 1500
         };
     }
-    connect() {
+    connect(uriMongo) {
         return __awaiter(this, void 0, void 0, function* () {
             if (db.connection.readyState == 0) {
-                db
-                    .connect(this.uriMongo, this.conSttng)
-                    .then(() => {
-                    new transactions_1.default(db);
-                })
+                const uriDatabase = uriMongo || this.uriMongo;
+                yield db
+                    .connect(uriDatabase, this.conSttng)
                     .catch((err) => {
                     Log.error(err);
                 });
@@ -57,4 +54,4 @@ class Database {
         });
     }
 }
-exports.default = new Database;
+exports.database = new Database;

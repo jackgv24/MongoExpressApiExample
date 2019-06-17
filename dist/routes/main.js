@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
+const permisoRouter_1 = require("../models/permisos/permisoRouter");
+const cargoRouter_1 = require("../models/cargo/cargoRouter");
+const areaRouter_1 = require("../models/area/areaRouter");
+const colaboradores_router_1 = require("../models/colaboradores/colaboradores.router");
+const mainRoute = express.Router();
+exports.mainRoute = mainRoute;
+mainRoute.use('/area', areaRouter_1.areaRouter);
+mainRoute.use('/permiso', permisoRouter_1.permisosRouter);
+mainRoute.use('/cargo', cargoRouter_1.cargoRouter);
+mainRoute.use('/colaborador', colaboradores_router_1.colaboradorRouter);

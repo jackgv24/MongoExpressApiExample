@@ -20,13 +20,11 @@ class Database {
         reconnectInterval: 1500 
     };
 
-    async connect(){
+    async connect(uriMongo?){
         if(db.connection.readyState == 0) {
-            db
-            .connect(this.uriMongo,this.conSttng)
-            .then(()=> {
-                new Transaction(db);
-            })
+            const uriDatabase = uriMongo || this.uriMongo;
+            await db
+            .connect(uriDatabase,this.conSttng)
             .catch((err)=>{
                 Log.error(err);
             });
@@ -48,4 +46,4 @@ class Database {
     }
 }
 
-export default new Database;
+export const database = new Database;
